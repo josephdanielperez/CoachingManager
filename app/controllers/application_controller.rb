@@ -1,8 +1,27 @@
 class ApplicationController < ActionController::Base
-    protect_from_forgery with: :exception
-  
-    def after_sign_in_path_for(resource)
-      request.env['omniauth-origin'] || appointments_path || root_path
+    ### HELPER_METHOD MAKES METHOD AVAILABLE TO VIEWS TOO ###
+    helper_method :current_user, :authorize, :logged_in?, :is_users_appointment?
+
+    def logged_in?
+        !!session[:user_id]
     end
-    
+
+    def current_user
+        if session[:user_id]
+            @current_user ||= User.find(session[:user_id])
+        end 
+    end
+
+    ### UNNECESSARY? ###
+    def authorize
+        if current_user.nil? 
+            flash[:notice] = "You must be logged in to access this page"
+            redirect_to login_path
+        end
+    end
+
+    def is_users_appointment?(appointment)
+        current_user.id == appointment.user_id
+    end
+
 end
