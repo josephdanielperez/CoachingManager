@@ -1,0 +1,27 @@
+<h1>Sign Up</h1>
+
+<%= form_for @user do |f| %>
+    <div class="text">
+        <%= f.label :name %> 
+        <%= f.text_field :name %><br>
+
+        <%= f.label :email %> 
+        <%= f.text_field :email %><br>
+
+        <%= f.label :password %> 
+        <%= f.password_field :password %><br>
+
+        <%= f.label :password_confirmation %> 
+        <%= f.password_field :password_confirmation %><br>
+
+        <%= f.submit "Sign Up" %> 
+    </div>
+<% end %> 
+
+<br><br><br>
+<div class="text">
+    or 
+</div><br> 
+<div class="link">
+    <%= link_to "Continue with Facebook", '/auth/facebook' %>
+</div>

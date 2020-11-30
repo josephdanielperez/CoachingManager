@@ -1,3 +1,5 @@
-<%= add_weekly_calendar(@appointments) %>
-<h1>Appointment</h1>
-<%= render @appointment %>
+<br><div class="text">
+    <i>Stylist:</i> <%= @appointment.employee.name %><br> 
+    <i>Time:</i> <%= convert_time(@appointment.time) %><br> 
+    <i>Your Name:</i> <%= @user.name %>
+</div> 
