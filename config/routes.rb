@@ -1,20 +1,20 @@
 Rails.application.routes.draw do
+  resources :services
+  resources :employees
+  resources :users do 
+    resources :appointments
+  end
   resources :appointments
 
-  resources :locations do 
-    resources :appointments, only: [:index, :show, :new]
-  end
+  root to: 'welcome#home'
 
-  resources :clients do 
-    resources :appointments, only: [:index, :show, :new]
-  end
+  get 'welcome/home' => 'welcome#home'
 
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy'
 
-  get 'welcome/home'
-  root 'welcome#home'
-  
-  get '/about', to: 'welcome#about'
-  
-  get '/locations/:id/client_list', to: 'locations#client_list', as: 'client_list'
+  get '/auth/facebook/callback' => 'sessions#create'
+
+  get '/users/most_appointments' => 'users#most_appointments'
 end
