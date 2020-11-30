@@ -1,3 +1,34 @@
-<h1>Rails Appointments</h1>
-
-<p>Keep track of your appointments and clients at multiple locations.</p>
+<% if @user %> <br> 
+    <div class="text">
+        <i>Name:</i> <%= @user.name %> <br> 
+        <i>Email:</i> <%= @user.email %> <br> <br> 
+    </div>
+    <div class="new_appt">
+        <%= link_to "book a new appointment", new_user_appointment_path(@user.id) %> 
+    </div><br><br><br> 
+    <% if @user.appointments %> 
+        <h3> Your Appointment(s): </h3>
+        <% if @user.appointments.empty? %>
+            <div class="text">
+                You currently do not have any appointments.
+            </div>
+        <% else %>
+            <% @user.appointments.each do |appointment| %>
+                <div class="text">
+                    <i>Appointment Employee:</i> <%= appointment.employee.name %><br>
+                    <i>Appointment Time:</i> <%= convert_time(appointment.time) %><br>
+                </div>
+                <div class="link">
+                    <%= link_to "edit appointment", edit_user_appointment_path(@user.id, appointment.id) %> 
+                </div><br>
+                <%= button_to "delete appointment", appointment, method: :delete %> 
+                <br><br><br><br><br> 
+            <% end %> 
+        <% end %> 
+    <% end %> 
+<% elsif @user == nil %> 
+    <div class="link">
+        <%= link_to "Continue with Facebook", '/auth/facebook' %>
+    </div>
+    <br>
+<% end %>
