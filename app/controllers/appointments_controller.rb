@@ -1,75 +1,65 @@
 class AppointmentsController < ApplicationController
-    before_action :authenticate_user!
-    before_action :set_appointment, only: [:show, :edit, :update, :destroy]
-    before_action :set_appointments, only: [:index, :show, :edit]
-    before_action :set_client, only: [:index, :new, :edit]
-    before_action :set_location, only: [:index, :new, :edit]
-      
-    def index 
-        @upcoming_appointments = current_user.upcoming_appointments
-    end 
-    
-    def show 
-    end
     
     def new 
-        @appointments = current_user.appointments.select { |a| a.persisted? }
-        @appointment = current_user.appointments.build
+        @appointment = Appointment.new(user_id: params[:user_id])
     end
-    
+
     def create 
-        @appointment = Appointment.new(appointment_params.merge(user_id: current_user.id))
-        if @appointment.valid?
-            @appointment.save
-            redirect_to appointments_path
-        else 
-            @appointment.user = nil
-            @appointments = current_user.appointments.select { |a| a.persisted? }
-            render :new
+        @appointment = Appointment.new(appointment_params)
+        if @appointment.save 
+            if logged_in?
+                if is_users_appointment?(@appointment)
+                    flash[:notice] = "Appointment successfully booked."
+                    redirect_to user_appointment_path(@appointment.user_id, @appointment.id)
+                end 
+            end 
+        else
+            render :new 
         end
     end
-    
-    def edit 
+
+    def show
+        get_appointment_and_user
     end
-    
+
+    def edit 
+        get_appointment_and_user
+    end
+
     def update 
+        @appointment = Appointment.find(params[:id])
         if @appointment.update(appointment_params)
-            redirect_to appointments_path
+            if logged_in?
+                if is_users_appointment?(@appointment)
+                    flash[:notice] = "Appointment Updated Successfully"
+                    redirect_to appointment_path(@appointment.id)
+                end 
+            end 
         else 
-            set_appointments
             render :edit
         end
     end
-    
+
     def destroy 
-        @appointment.destroy 
-        redirect_to appointments_path
+        @appointment = Appointment.find(params[:id])
+        if logged_in?
+            if is_users_appointment?(@appointment)
+                @appointment.destroy 
+                flash[:notice] = "Appointment Deleted"
+                redirect_to root_path
+            end 
+        end 
     end
-    
+
     private 
-    
-    def set_client 
-        @client = current_user.clients.find_by(id: params[:client_id])
+
+    def appointment_params 
+        params.require(:appointment).permit(:time, :user_id, :employee_id)
     end
-    
-    def set_location
-        @location = current_user.locations.find_by(id: params[:location_id])
-    end
-    
-    def set_appointment
-        @appointment = current_user.appointments.find_by(id: params[:id])
-        if @appointment.nil? 
-            flash[:error] = "Appointment not found."
-            redirect_to appointments_path
-        end
-    end
-    
-    def set_appointments
-        @appointments = current_user.appointments.order(appointment_time: :desc)
-    end
-    
-    def appointment_params
-        params.require(:appointment).permit(:client_id, :price, :location_id, location_attributes: [:nickname], client_attributes: [:name], appointment_time: [:date, :hour, :min], duration: [:hour, :min])
+
+    def get_appointment_and_user
+        @appointment = Appointment.find_by(id: params[:id])
+        @user = User.find_by(id: @appointment.user_id)
     end
 
 end
