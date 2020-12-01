@@ -1,11 +1,11 @@
 <% if logged_in? %> 
     <% if is_users_appointment?(@appointment) %> 
         <%= render 'errors' %>
-        <h1> Book a new appointment </h1> 
+        <h1> Book a Coaching Session </h1> 
         <%= form_for(@appointment) do |f| %>
             <%= f.hidden_field :user_id %> 
-            <h3> Choose your stylist </h3>
-            <%= f.collection_select :employee_id, Employee.all, :id, :name %> <br> <br> <br> <br> 
+            <h3> Choose your coach </h3>
+            <%= f.collection_select :employee_id, Employee.all, :id, :name %><br><br><br><br> 
 
             <h3> Choose time </h3> 
 
@@ -16,7 +16,7 @@
             </div>
             <br><br><br><br><br>
 
-            <%= f.submit "Book Appointment" %> 
+            <%= f.submit "Book Session" %> 
         <% end %> 
     <% end %> 
 <% end %>
