@@ -1,22 +1,22 @@
 <% if logged_in? %> 
     <% if is_users_appointment?(@appointment) %> 
         <%= render 'errors' %>
-        <h1> Book a Coaching Session </h1> 
+        <h1> Book a Training Session </h1> 
         <%= form_for(@appointment) do |f| %>
             <%= f.hidden_field :user_id %> 
-            <h3> Choose your coach </h3>
+            <h3> Choose Your Coach </h3>
             <%= f.collection_select :employee_id, Employee.all, :id, :name %><br><br><br><br> 
 
-            <h3> Choose time </h3> 
+            <h3> Choose A Time </h3> 
 
             <%= render 'time' %> 
 
             <div class="field <%= ' field_with_errors' if @appointment.errors[:time].any? %>">
-                <%= f.datetime_select :time %> 
+                <%= f.datetime_select :time, { ampm: true, use_short_month: true, start_year: 2020, start_hour: 5, end_hour: 19, minute_step: 30, order: [:month, :day, :year, :hour, :minute ] }, {class: "form-control" } %> 
             </div>
             <br><br><br><br><br>
 
-            <%= f.submit "Book Session" %> 
+            <%= f.submit "book session" %> 
         <% end %> 
     <% end %> 
 <% end %>

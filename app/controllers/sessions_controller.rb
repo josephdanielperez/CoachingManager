@@ -9,7 +9,6 @@ class SessionsController < ApplicationController
             @user = User.find_or_create_by(uid: auth['uid']) do |u|
                 u.name = auth['info']['name']
                 u.email = auth['info']['email']
-                u.image = auth['info']['image']
             end 
             @user.password = SecureRandom.hex
             if @user.save 
@@ -28,7 +27,7 @@ class SessionsController < ApplicationController
                 flash[:notice] = "Log In Successful"
                 redirect_to root_path
             else 
-                flash[:notice] = "Could not find account :("
+                flash[:notice] = "Could not find account!"
                 render :new 
             end
         end 
@@ -53,5 +52,5 @@ class SessionsController < ApplicationController
     def auth
         request.env['omniauth.auth']
     end
-    
+
 end

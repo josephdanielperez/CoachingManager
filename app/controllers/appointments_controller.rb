@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-    
+
     def new 
         @appointment = Appointment.new(user_id: params[:user_id])
     end
@@ -9,9 +9,9 @@ class AppointmentsController < ApplicationController
         if @appointment.save 
             if logged_in?
                 if is_users_appointment?(@appointment)
-                    flash[:notice] = "Appointment successfully booked."
+                    flash[:notice] = "Training Session Successfully Booked."
                     redirect_to user_appointment_path(@appointment.user_id, @appointment.id)
-                end 
+                end
             end 
         else
             render :new 
@@ -31,7 +31,7 @@ class AppointmentsController < ApplicationController
         if @appointment.update(appointment_params)
             if logged_in?
                 if is_users_appointment?(@appointment)
-                    flash[:notice] = "Appointment Updated Successfully"
+                    flash[:notice] = "Training Session Updated Successfully."
                     redirect_to appointment_path(@appointment.id)
                 end 
             end 
@@ -45,10 +45,14 @@ class AppointmentsController < ApplicationController
         if logged_in?
             if is_users_appointment?(@appointment)
                 @appointment.destroy 
-                flash[:notice] = "Appointment Deleted"
+                flash[:notice] = "Training Session Successfully Canceled."
                 redirect_to root_path
             end 
         end 
+    end
+
+    def index
+        @appointments = Appointment.all
     end
 
     private 

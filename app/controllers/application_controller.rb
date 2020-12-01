@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     ### UNNECESSARY? ###
     def authorize
         if current_user.nil? 
-            flash[:notice] = "You must be logged in to access this page"
+            flash[:notice] = "You must be logged in to access this page."
             redirect_to login_path
         end
     end

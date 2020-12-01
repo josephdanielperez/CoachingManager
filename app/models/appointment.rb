@@ -7,18 +7,15 @@ class Appointment < ApplicationRecord
     validate :valid_time
 
     def valid_time
-        if time.hour % 2 == 0
-            errors.add(:time, "hour must be an odd number")
+        if time.hour < 5 || time.hour > 19.5
+            errors.add(:time, "hour must be between 5am and 7:30pm")
         end
-        if time.hour < 9 || time.hour > 17
-            errors.add(:time, "hour must be between 09 and 17")
-        end
-        if time.strftime("%M") != "00"
-            errors.add(:time, "minute of hour must be 00")
+        if time.strftime("%M") != "00" && time.strftime("%M") != "30"
+            errors.add(:time, "minute of hour must be 00 or 30")
         end 
         if time <= Time.now 
-            errors.add(:time, "must be in the future")
+            errors.add(:time, "must be booked a day in advance")
         end
     end
-    
+
 end
