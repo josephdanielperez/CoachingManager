@@ -16,12 +16,13 @@ class UsersController < ApplicationController
             render :new 
         end
     end
-
+    
     def most_appointments
+        @user = User.most_appointments
     end
 
-    def show 
-        @user = User.most_appointments
+    def index
+        @user = current_user
     end
 
     private 

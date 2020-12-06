@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
             if @user.save 
                 session[:user_id] = @user.id
                 flash[:notice] = "You're in."
-                render 'welcome/home'
+                render 'users/index'
             else 
                 flash[:notice] = "Something went wrong."
                 redirect_to root_path

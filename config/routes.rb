@@ -1,14 +1,11 @@
 Rails.application.routes.draw do
-  resources :services
   resources :employees
-  resources :users do 
+  resources :users, except: :show do 
     resources :appointments
   end
   resources :appointments
 
-  root to: 'welcome#home'
-
-  get 'welcome/home' => 'welcome#home'
+  root 'users#index'
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
@@ -16,5 +13,5 @@ Rails.application.routes.draw do
 
   get '/auth/facebook/callback' => 'sessions#create'
 
-  get '/users/most_appointments' => 'users#most_appointments'
+  get '/users/most_appointments', :to => 'users#most_appointments', :as => 'most_appointments'
 end
