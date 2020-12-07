@@ -6,6 +6,8 @@ class Appointment < ApplicationRecord
 
     validate :valid_time
 
+    scope :current, -> { :time >= Time.now }
+
     def valid_time
         if time.hour < 5 || time.hour > 19.5
             errors.add(:time, "hour must be between 5am and 7:30pm")
@@ -16,6 +18,10 @@ class Appointment < ApplicationRecord
         if time <= Time.now 
             errors.add(:time, "must be booked a day in advance")
         end
+    end
+
+    def self.chronological
+        self.order('(appointments.time) asc')
     end
 
 end

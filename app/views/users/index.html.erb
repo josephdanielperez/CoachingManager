@@ -1,27 +1,24 @@
 <% if @user %> <br> 
     <div class="text">
-        <strong>Name:</strong> <%= @user.name %> <br> 
-        <strong>Email:</strong> <%= @user.email %> <br> <br> 
+        <strong>Name:</strong> <%= @user.name %><br> 
+        <strong>Email:</strong> <%= @user.email %><br><br>
     </div>
     <div class="new_appt">
         <%= link_to "book a new training session", new_user_appointment_path(@user.id) %> 
     </div><br><br><br> 
     <% if @user.appointments %> 
-        <h3> Your Training Sessions: </h3>
+        <h3> Your Next Training Session: </h3>
         <% if @user.appointments.empty? %>
             <div class="text">
-                You currently do not have any training sessions.
+                You currently do not have any training sessions booked.
             </div>
         <% else %>
-            <% @user.appointments.each do |appointment| %>
+            <% @user.appointments.where('time > ?', Time.now).limit(1).each do |appointment| %>
                 <div class="text">
                     <strong>Coach:</strong> <%= appointment.employee.name %><br>
                     <strong>Time:</strong> <%= convert_time(appointment.time) %><br>
                 </div>
-                <div class="link">
-                    <%= link_to "edit session", edit_user_appointment_path(@user.id, appointment.id) %> 
-                </div><br>
-                <%= button_to "cancel session", appointment, method: :delete %> 
+                <%= link_to "edit session", edit_user_appointment_path(@user.id, appointment.id) %> | <%= link_to "cancel session", appointment, method: :delete %> 
                 <br><br><br><br><br> 
             <% end %> 
         <% end %> 

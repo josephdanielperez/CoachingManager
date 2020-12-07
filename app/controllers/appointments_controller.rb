@@ -26,6 +26,8 @@ class AppointmentsController < ApplicationController
         get_appointment_and_user
     end
 
+
+    ### LATER: MAKE TO WHERE A USER CANNOT UPDATE AN OLD TRAINING SESSION ###
     def update 
         @appointment = Appointment.find(params[:id])
         if @appointment.update(appointment_params)
@@ -52,7 +54,17 @@ class AppointmentsController < ApplicationController
     end
 
     def index
-        @appointments = Appointment.all
+        if params[:user_id]
+            @user = User.find_by(id: params[:user_id])
+            if @user.nil?
+                flash[:notice] = "User not found."
+                redirect_to root_path
+            else
+                @appointments = @user.appointments.chronological.where('time < ?', Time.now)
+            end
+        else
+            @appointments = Appointment.chronological.where('time > ?', Time.now)
+        end
     end
 
     private 

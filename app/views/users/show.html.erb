@@ -1,0 +1,39 @@
+<div class="text">
+    <strong>Name:</strong> <%= @user.name %><br> 
+    <strong>Email:</strong> <%= @user.email %><br><br>
+</div>
+
+<% if @user == current_user %>
+    <div class="link">
+        <%= link_to "edit profile", edit_user_path(@user.id) %>
+    </div><br><br><br> 
+
+    <div class="new_appt">
+        <%= link_to "book a new training session", new_user_appointment_path(@user.id) %> 
+    </div><br><br><br>
+<% end %>
+
+<% if @user.appointments %> 
+    <h3> Booked Training Sessions: </h3>
+    <%= link_to 'Past Training Sessions', user_appointments_path(@user.id) %><br><br><br>
+    <% if @user.appointments.empty? %>
+        <div class="text">
+            <%= @user.name %> does not have any training sessions currently booked.
+        </div>
+    <% else %>
+        <% @user.appointments.where('time > ?', Time.now).each do |appointment| %>
+            <div class="text">
+                <strong>Coach:</strong> <%= appointment.employee.name %><br>
+                <strong>Time:</strong> <%= convert_time(appointment.time) %><br><br>
+            </div>
+
+            <% if @user == current_user %>
+            <div>
+                <%= link_to "edit session", edit_user_appointment_path(@user.id, appointment.id) %> | <%= link_to "cancel session", appointment, method: :delete %> 
+            </div>
+                <br><br><br><br>
+            <% end %>
+             
+        <% end %> 
+    <% end %> 
+<% end %> 

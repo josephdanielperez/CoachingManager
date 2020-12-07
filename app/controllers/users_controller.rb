@@ -16,13 +16,30 @@ class UsersController < ApplicationController
             render :new 
         end
     end
-    
-    def most_appointments
-        @user = User.most_appointments
-    end
 
     def index
         @user = current_user
+    end
+
+    def edit
+        @user = current_user
+    end
+
+    def update
+        @user = current_user
+        if @user.update(user_params)
+            if logged_in?
+                flash[:notice] = "User Profile Updated Successfully."
+                redirect_to root_path
+            end
+        else
+            flash[:notice] = "Something went wrong, please try again!"
+            render :edit
+        end
+    end
+
+    def show
+        @user = User.find(params[:id])
     end
 
     private 
