@@ -1,13 +1,13 @@
-# CoachingManager
+# Coaching Manager
 Rails Portfolio Project - Flatiron School
 
 # Usage
-PokéTeams is a social website where you can share your favorite teams that have brought you success, challenge team combinations to test your skills, or just those who you think are the cutest. Share your teams with others online and see what everyone else is recommending.
+Coaching Manager is a Ruby on Rails application that uses thoughtful relationships, validations, scope methods, authentication, and nested resources. This is a demonatration of an appointment management system that could be used for other service applications.
 
 # Features that will be add include:
-    - Categories will be added to organize teams that have been built so you can sort through teams that are built to win, built to challenge, or built for fun.
-    - Images will be added for visual flare.
-    - Database of all Pokémon will be added so users can select from the existing database for consistency. These will also be organized by generation as well.
+    - Services, types of coaching lessons (ie: Baseball: Pitching, Fielding, Batting)
+    - Profile pictures
+    - Admin login system
 
 # Installation:
   Clone this repository
