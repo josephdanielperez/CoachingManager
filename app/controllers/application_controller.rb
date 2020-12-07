@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
         end
     end
 
+    ### ALSO UNNECESSARY? ###
     def is_users_appointment?(appointment)
         current_user.id == appointment.user_id
     end

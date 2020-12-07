@@ -5,8 +5,8 @@ class Appointment < ApplicationRecord
     validates :time, uniqueness: true 
 
     validate :valid_time
-
-    scope :current, -> { :time >= Time.now }
+    scope :chrono, -> {order(:time)}
+    scope :reverse_chrono, -> {order(:time).reverse_order}
 
     def valid_time
         if time.hour < 5 || time.hour > 19.5
@@ -20,8 +20,8 @@ class Appointment < ApplicationRecord
         end
     end
 
-    def self.chronological
-        self.order('(appointments.time) asc')
-    end
+    #def self.chronological
+    #    self.order('(appointments.time) asc')
+    #end
 
 end

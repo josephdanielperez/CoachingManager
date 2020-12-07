@@ -1,5 +1,15 @@
-<% if @user.appointments.empty? %>
-    <%= @user.name %> does not have any training sessions currently booked.
+<% if @user %>
+    <% if @user.appointments.empty? %>
+        <%= @user.name %> has not booked any training sessions yet.
+    <% else %>
+        <% @appointments.each do |appointment| %>
+            <div class="text">
+                <strong>Coach:</strong> <%= appointment.employee.name %><br>
+                <strong>Time:</strong> <%= convert_time(appointment.time) %><br>
+                <strong>Client:</strong> <%= appointment.user.name %><br><br><br>
+            </div>
+        <% end %>
+    <% end %>
 <% else %>
     <% @appointments.each do |appointment| %>
         <div class="text">

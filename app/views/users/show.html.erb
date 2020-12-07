@@ -29,9 +29,10 @@
 
             <% if @user == current_user %>
             <div>
-                <%= link_to "edit session", edit_user_appointment_path(@user.id, appointment.id) %> | <%= link_to "cancel session", appointment, method: :delete %> 
+                <%= link_to "edit session", edit_user_appointment_path(@user.id, appointment.id) %><br><br>
+                <%= button_to "cancel session", appointment, method: :delete %> 
             </div>
-                <br><br><br><br>
+                <br><br><br><br><br>
             <% end %>
              
         <% end %> 

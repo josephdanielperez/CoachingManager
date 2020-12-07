@@ -60,10 +60,10 @@ class AppointmentsController < ApplicationController
                 flash[:notice] = "User not found."
                 redirect_to root_path
             else
-                @appointments = @user.appointments.chronological.where('time < ?', Time.now)
+                @appointments = @user.appointments.reverse_chrono.where('time < ?', Time.now)
             end
         else
-            @appointments = Appointment.chronological.where('time > ?', Time.now)
+            @appointments = Appointment.chrono.where('time > ?', Time.now)
         end
     end
 
