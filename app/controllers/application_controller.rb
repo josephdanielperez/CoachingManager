@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
         end 
     end
 
-    ### UNNECESSARY? ###
+    ### USED??? ###
     def authorize
         if current_user.nil? 
             flash[:notice] = "You must be logged in to access this page."
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
         end
     end
 
-    ### ALSO UNNECESSARY? ###
+    ### USED??? ###
     def is_users_appointment?(appointment)
         current_user.id == appointment.user_id
     end
