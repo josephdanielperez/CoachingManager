@@ -1,0 +1,7 @@
+<% @appointments.each do |appointment| %>
+    <div class="text">
+        <strong>Coach:</strong> <%= appointment.employee.name %><br>
+        <strong>Time:</strong> <%= convert_time(appointment.time) %><br>
+        <strong>Client:</strong> <%= appointment.user.name %><br><br><br>
+    </div>
+<% end %>
